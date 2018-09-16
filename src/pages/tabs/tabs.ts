@@ -1,8 +1,9 @@
+import { GroupsPage } from './../groups/groups';
+import { GroupPage } from './../group/group';
+import { HomePage } from './../home/home';
 import { Component } from '@angular/core';
-
-import { AboutPage } from '../about/about';
-import { ContactPage } from '../contact/contact';
-import { HomePage } from '../home/home';
+import { CreateGroupPage } from '../create-group/create-group';
+import { ProfilePage } from '../profile/profile';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -10,8 +11,8 @@ import { HomePage } from '../home/home';
 export class TabsPage {
 
   tab1Root = HomePage;
-  tab2Root = AboutPage;
-  tab3Root = ContactPage;
+  tab2Root = GroupsPage;
+  tab3Root = ProfilePage;
 
   constructor() {
 

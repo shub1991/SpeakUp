@@ -3,22 +3,21 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SpeechRecognition } from '@ionic-native/speech-recognition'; 
+import { AngularFireDatabase } from 'angularfire2/database';
 import { Chat } from './../../app/models/chat';
 import { Observable } from 'rxjs/Observable';
 import { User } from './../../app/models/user';
 import { Storage } from '@ionic/storage';
 import firebase  from 'firebase';
-import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-group',
+  templateUrl: 'group.html'
 })
-export class HomePage {
+export class GroupPage {
 
   data = [];
   text: string;
-  textArr = [];
   sentences: Array<String> = [];
   error: string;
   user = {} as User;
@@ -28,63 +27,59 @@ export class HomePage {
   key: string;
   temp1: any;
   message: string;
-  listenCount = 0;
-  speakCount = 0;
-  flag = [];
-  i = 0;
-  j=0;
-  constructor(private speech: SpeechRecognition, private tts: TextToSpeech, public navCtrl: NavController, public storage: Storage, public NavParams:NavParams, public fdb: AngularFireDatabase) {
-    this.flag[0]=1;
-  } 
+  count = 0;
+  path:string;
+  messageFrom: string
+  constructor(private speech: SpeechRecognition, private tts: TextToSpeech, public navCtrl: NavController, private fdb: AngularFireDatabase, public storage: Storage, public navParams:NavParams) {
+    this.path = '/Groups/'+this.navParams.get('groupKey')+'/messages';
+    console.log(this.path);
+       let firebaseRef = firebase.database().ref(this.path).once('value', (snapshot) => {
+         this.temp = snapshot.val();
+         let i = 0;
+         console.log(this.temp);
+         for(let key in this.temp)
+         {
+           this.messages[i] = snapshot.child(key).val().message;
+           this.messageFrom = snapshot.child(key).val().email;
+           console.log(this.messageFrom + "<--------email");
+           i++;
+         }
+         console.log("constructor list")
+      });
+      
+    this.storage.get('email').then((val) => {
+      this.email = val;
+    });
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad GroupPage');
+  }
 
   async speakIt():Promise<any>
   {
     try {
-      this.flag[this.i]=1;
-      this.i++;      
-      await this.tts.speak({text: this.text, locale: 'en-US'});
-      this.sentences[this.listenCount] = this.text;
-      this.listenCount++;
-      this.text="";
-     
-      /*this.fdb.list('/Groups/-L-VLFTgYEtZBp95B5gq/messages').push({
-        //firstName: this.user.firstName,
-        //lastName: this.user.lastName,
-        //email: this.email,
-        message:this.text
-      });*/
-    
-
-      /* this.fdb.list('/Messages/group').push({
-        //firstName: this.user.firstName,
-        //lastName: this.user.lastName,
+      await this.tts.speak({text: this.text, locale: 'en-GB'});
+      this.fdb.list(this.path).push({
        email: this.email,
        message: this.text
       });
-       */console.log(this.text);
     } catch (error) {
       this.error = error;
     }
   }
 
   async listen():Promise<any> {
-    this.flag[this.i]=0;
-    this.i++;    
     const permission = await this.speech.requestPermission();  
     this.speech.startListening().subscribe(data => {
-      this.sentences[this.listenCount] = data[0];
-      this.listenCount++;
-      this.textArr.push(data[0]);
-      /*   this.fdb.list('/Messages/group').push({
-        //firstName: this.user.firstName,
-        //lastName: this.user.lastName,
-        email: this.email,
-        message:this.sentences[0]
-      }); */
-    }, error => console.log(error));
-    //this.speech.startListening().subscribe(data => this.sentences = data, error => console.log(error));
-    //this.fdb.list('/Chat/listen').push(this.sentences[0]);
-    //this.speech.stopListening()
+      this.sentences = data;
+      
+        this.fdb.list(this.path).push({
+          email: this.email,
+          message:this.sentences[0]
+        });
+      });
+      
   }
 
   async hasPermission():Promise<boolean> {

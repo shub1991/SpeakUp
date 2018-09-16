@@ -1,17 +1,52 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Conversation</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+
+  <div *ngFor="let sentence of sentences; let i = index">
+    <div *ngIf="flag[i]==1" class="from-me">
+      <p>{{sentence}}</p>
+    </div>
+    <div class="clear">
+      <br/>
+    </div>
+
+    <div *ngIf="flag[i]==0" class="from-them">
+      <p>{{sentence}}</p>
+    </div>
+    <div class="clear">
+      <br/>
+    </div>
+  </div>
+  <p>{{ error }}</p>
 </ion-content>
+
+<ion-footer ion-fixed>
+  <!--
+<ion-item>
+  <ion-textarea rows = "1" [(ngModel)] = "text"></ion-textarea>
+</ion-item>
+<button ion-button (click) = "speakIt()">speak</button>
+<button ion-button (click) = "listen()">Listen</button>
+-->
+  <ion-row>
+    <ion-col width-50 style="text-align: right">
+      <button ion-button round outline (click)="listen()">Listen&nbsp;
+          <ion-icon icon-only class="icon-space" name="md-microphone"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col width-50 style="text-align: left">
+      <button ion-button round (click)="speakIt()">Speak&nbsp;
+          <ion-icon icon-only class="icon-space" name="md-volume-up"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+
+  <ion-toolbar class="no-border" color="white">
+    <ion-input [(ngModel)]="text" placeholder="Write your message ..."></ion-input>
+  </ion-toolbar>
+
+</ion-footer>

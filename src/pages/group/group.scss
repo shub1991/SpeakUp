@@ -1,4 +1,67 @@
-page-home {
+page-group {
+    body {
+        cursor: url('https://ionicframework.com/img/finger.png'), auto;
+      }
+      
+      .messages {
+          margin:0;
+          padding:0;
+          list-style-type:none;
+      }
+      
+      .messages li {
+          display:block;
+          clear:both;
+          max-width:50%;
+          margin:0 0 1rem 0;
+          padding:0;
+
+
+          border-radius:.75rem;
+          background:#e6e5eb;
+          color:#383641;
+          padding:.6875rem;
+          margin:0;
+          font-size:.875rem;
+      }
+      
+      .messages li:nth-child(even) {
+          float:right;
+          border-radius:.75rem;
+          background:#0B93F6;
+          color:#fbfafc;
+          padding:.6875rem;
+          margin:0;
+          font-size:.875rem;
+     
+      }
+      
+      .messages li:nth-child(even) img {
+          float:right;
+      }
+      
+      .messages p {
+          border-radius:.75rem;
+          background:#e6e5eb;
+          color:#383641;
+          padding:.6875rem;
+          margin:0;
+          font-size:.875rem;
+      }
+      
+      .messages li:nth-child(even) p {
+          background:#158ffe;
+          color:#fff;
+      }
+      
+      .messages img {
+          display:block;
+          max-width:65%;
+          border-radius:.75rem;
+      }
+
+
+/*
       body {
         font-family: "Helvetica Neue";
         font-size: 20px;
@@ -25,7 +88,7 @@ page-home {
     .clear {clear: both}
     .from-me {
         position:relative;
-        padding:0px 12px;
+        padding:10px 20px;
         color:white; 
         background:#0B93F6;
         border-radius:25px;
@@ -58,7 +121,7 @@ page-home {
     }
     .from-them {
         position:relative;
-        padding:0px 12px;
+        padding:10px 20px;
         background:#E5E5EA;
         border-radius:25px;
         color: black;
@@ -90,12 +153,10 @@ page-home {
         }
     }
 
-    .icon-space{
-        padding: 10px;
-
+    .from-me li{
+        list-style-type:none;
     }
-
-    .listen-button{
-        align-content: center;
-    }
+    .from-them li{
+        list-style-type:none;
+    }*/
 }

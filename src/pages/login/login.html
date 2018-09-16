@@ -1,29 +1,31 @@
-<!--
-  Generated template for the LoginPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-
-  <ion-navbar color='primary'>
-    <ion-title>login</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-
-<ion-item>
-  <ion-label floating>Email</ion-label>
-  <ion-input type="text" [(ngModel)]="user.email"></ion-input>
-</ion-item>
-<ion-item>
-    <ion-label floating>Password</ion-label>
-    <ion-input type="password" [(ngModel)]="user.password"></ion-input>
-  </ion-item>
-
-  <button ion-button (click)="login(user)">Login</button>
-  <button ion-button (click)="register()">Sign Up</button>
-</ion-content>
+<ion-header>  </ion-header>  
+  
+  <ion-content class="background">
+      <div><p><br/><br/></p><img src="assets/imgs/header.png"></div>
+    <ion-card>
+      <ion-card-header>
+        Login
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list no-lines>
+          <div class="spacer" style="height: 10px;"></div>
+          <ion-item>
+            <ion-input type="email" placeholder="Email" [(ngModel)]="user.email"></ion-input>
+          </ion-item>
+          <div class="spacer" style="height: 5px;"></div>
+          <ion-item>
+            <ion-input type="password" placeholder="Password" [(ngModel)]="user.password"></ion-input>
+          </ion-item>
+          <div class="spacer" style="height: 10px;"></div>
+          <a (click)="passwordreset()">Forgot login details? <b> Get Help </b></a>
+          <div class="spacer" style="height: 10px;"></div>
+          <button ion-button block round outline color="light" (click)="login(user)"><b>Login</b></button>
+          <div class="spacer" style="height: 10px;"></div>
+          <p>OR</p>
+          <div class="spacer" style="height: 10px;"></div>
+          <button ion-button clear full color="light" (click)="pushRegister()">Don't have an account?<b>&nbsp;Sign up! </b></button>
+        </ion-list>
+        <p style = "color:red">{{error}}</p>
+      </ion-card-content>
+    </ion-card> 
+  </ion-content>

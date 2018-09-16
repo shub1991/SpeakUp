@@ -1,15 +1,11 @@
+import { TabsPage } from './../tabs/tabs';
+import { User } from './../../app/models/user';
+import { RegisterPage } from './../register/register';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { User } from '../../models/user';
-import {SignupPage} from '../signup/signup';
-import { AngularFireAuth} from 'angularfire2/auth';
-import {TabsPage} from '../tabs/tabs'
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Storage } from '@ionic/storage';
+import firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -17,25 +13,46 @@ import {TabsPage} from '../tabs/tabs'
   templateUrl: 'login.html',
 })
 export class LoginPage {
+
+
   user = {} as User;
-  constructor(private auth:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams,private toast:ToastController) {
+  firstName:string;
+  lastName:string;
+  name:string;
+  error:string;
+
+  constructor(private authentication: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public storage: Storage) {
   }
 
-  login(user:User){
-    try{
-        var result=this.auth.auth.signInWithEmailAndPassword(user.email,user.password)
-        console.log(result);
-        if(result){
-          this.navCtrl.setRoot(TabsPage);
-        }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad LoginPage');
+  }
+
+  pushRegister() {
+    this.navCtrl.push('RegisterPage');
+  }
+  
+  async login(user: User) {
+    try {
+      const result = await this.authentication.auth.signInWithEmailAndPassword(user.email, user.password);
+      if (result) {
+        this.navCtrl.push(TabsPage);
+        let email = user.email.replace('.', '*');
+        let firebaseRef = firebase.database().ref('/User/'+email+"/").on('value', (snapshot) => {
+          this.firstName = snapshot.val().firstName;
+          this.lastName = snapshot.val().lastName;
+          let i = 0;
+          this.name = this.firstName + " " + this.lastName;
+          this.storage.set('name', this.name);  
+       });
+      this.storage.set('email', user.email);  
+      }  
     }
-    catch(e){
-        console.log(e);
-        this.toast.create({message:"Invalid user ID or password",duration:3000}).present();
+    catch (e) {
+      console.error(e);
+      this.error = "Authentication Failed! " + e;
     }
   }
- 
-  register(){
-    this.navCtrl.push('SignupPage');
-  }
+   
 }

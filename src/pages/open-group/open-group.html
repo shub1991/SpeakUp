@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{groupName}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="groupMenuOptions()">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  
+  <div *ngFor="let message of messages; let i = index" >  
+    <div *ngIf="messageFrom[i] == email" class="from-me">
+      <p> {{message}}</p>
+    </div>
+    <div class="clear"><br/></div>
+  
+    <div *ngIf="messageFrom[i] != email" class="from-them">
+      <p><b style="color:#B200B2">{{displayNames[i]}}</b> <br/> {{message}}</p>
+    </div>
+    <div class="clear"><br /></div>
+  </div>
+  <p>{{ error }}</p>
+</ion-content>
+
+<ion-footer ion-fixed>
+  <!--
+  <ion-item>
+    <ion-textarea rows = "1" [(ngModel)] = "text" placeholder="Write your message ..."></ion-textarea>
+  </ion-item>
+  <button ion-button (click) = "speakIt()">Speak</button>
+  <button ion-button (click) = "listen()">Listen</button>
+  
+  <button ion-button round block class="listen-button">Listen
+      <ion-icon icon-only class = "icon-space" name="microphone"></ion-icon>
+  </button>
+  -->
+  <ion-toolbar class="no-border" color="white">        
+    <ion-input [(ngModel)]="text" placeholder="Write your message.."></ion-input>  
+    <ion-buttons end>
+      <button ion-button icon-only outline (click)="speakIt()">
+          <ion-icon icon-only class = "icon-space" name="md-volume-up" color="primary"></ion-icon>
+      </button>
+      <button ion-button icon-only outline class="mic-padding" (click)="listen()">&nbsp;
+          <ion-icon icon-only class = "icon-space" name="microphone" color="primary">&nbsp;</ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar> 
+
+</ion-footer>

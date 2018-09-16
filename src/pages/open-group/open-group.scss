@@ -1,5 +1,5 @@
-page-home {
-      body {
+page-open-group {
+    body {
         font-family: "Helvetica Neue";
         font-size: 20px;
         font-weight: normal;
@@ -12,7 +12,7 @@ page-home {
         div {
             max-width: 255px;
             word-wrap: break-word;
-            margin-bottom: 12px;
+            margin-bottom: 5px;
         line-height: 24px;
         &:after {
           content: "";
@@ -91,11 +91,17 @@ page-home {
     }
 
     .icon-space{
-        padding: 10px;
+        padding: 5px;
 
     }
 
     .listen-button{
         align-content: center;
     }
+
+    .mic-padding{
+        margin:auto;
+
+    }
+
 }
